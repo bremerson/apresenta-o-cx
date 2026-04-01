@@ -1,33 +1,38 @@
-// REVEAL AO SCROLL
-const reveals = document.querySelectorAll(".reveal");
+gsap.registerPlugin(ScrollTrigger);
 
-window.addEventListener("scroll", () => {
-  const trigger = window.innerHeight * 0.85;
-
-  reveals.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if (top < trigger) {
-      el.classList.add("active");
-    }
-  });
+// Movimento do Cursor
+const cursor = document.getElementById('custom-cursor');
+document.addEventListener('mousemove', (e) => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
 });
 
-// CONTADOR
-const counters = document.querySelectorAll(".number");
-
-counters.forEach(counter => {
-  const update = () => {
-    const target = +counter.getAttribute("data-target");
-    const current = +counter.innerText;
-
-    const inc = target / 50;
-
-    if (current < target) {
-      counter.innerText = Math.ceil(current + inc);
-      setTimeout(update, 30);
-    } else {
-      counter.innerText = target + "+";
+// Animação de entrada dos Cards (Scroll Reveal)
+gsap.from(".bento-card", {
+    y: 30,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.1,
+    ease: "power2.out",
+    scrollTrigger: {
+        trigger: ".bento-grid",
+        start: "top 80%"
     }
-  };
-  update();
+});
+
+// Efeito de contagem nos números
+const stats = document.querySelectorAll('.stat, .stat-small');
+stats.forEach(stat => {
+    const text = stat.innerText;
+    const value = parseFloat(text.replace(/[^\d.]/g, ''));
+    if (!isNaN(value)) {
+        gsap.from(stat, {
+            innerText: 0,
+            duration: 2,
+            snap: { innerText: 0.1 },
+            scrollTrigger: {
+                trigger: stat,
+                start: "top 90%"
+            }
+        });
+    }
 });
