@@ -1,18 +1,32 @@
+// REVEAL AO SCROLL
+const reveals = document.querySelectorAll(".reveal");
+
+window.addEventListener("scroll", () => {
+  const trigger = window.innerHeight * 0.85;
+
+  reveals.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < trigger) {
+      el.classList.add("active");
+    }
+  });
+});
+
 // CONTADOR
-const numbers = document.querySelectorAll(".number");
+const counters = document.querySelectorAll(".number");
 
-numbers.forEach(num => {
+counters.forEach(counter => {
   const update = () => {
-    const target = +num.getAttribute("data-target");
-    const current = +num.innerText;
+    const target = +counter.getAttribute("data-target");
+    const current = +counter.innerText;
 
-    const increment = target / 40;
+    const inc = target / 50;
 
     if (current < target) {
-      num.innerText = Math.ceil(current + increment);
+      counter.innerText = Math.ceil(current + inc);
       setTimeout(update, 30);
     } else {
-      num.innerText = target + "+";
+      counter.innerText = target + "+";
     }
   };
   update();
